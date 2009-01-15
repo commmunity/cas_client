@@ -8,9 +8,10 @@ module CasClient
         @values = values.with_indifferent_access
       end
       
-      def [](key)
+      def value(key)
         @values[key.to_sym]
       end
+      alias_method :[], :value
       
     end
     
