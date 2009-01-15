@@ -1,0 +1,1 @@
+require 'cas_client'
