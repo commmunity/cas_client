@@ -2,7 +2,7 @@ module CasClient
   
   class Request
     
-    include Logger
+    include CasClient::Logger
     
     attr_reader :provider
     attr_reader :service_url
@@ -22,7 +22,7 @@ module CasClient
     
     def logout_url(destination = nil)
       returning(provider.logout_url) do |url|
-        url.query = "destination=#{CGI.escape(destination)}" if destination
+        url.query = "destination=#{CGI.escape(destination)}" if destination.present?
       end
     end
     
