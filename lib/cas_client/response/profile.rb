@@ -4,12 +4,27 @@ module CasClient
     
     class Profile
       
-      def initialize(values)
-        @values = values.with_indifferent_access
+      include Enumerable
+      
+      def initialize(attributes)
+        @attributes = attributes.with_indifferent_access
+      end
+      
+      def attributes(*keys)
+        returning({}.with_indifferent_access) do |attributes|
+          keys.each do |key|
+            value = @attributes[key]
+            attributes[key] = value unless value.nil?
+          end
+        end
+      end
+      
+      def each(&block)
+        @attributes.each(&block)
       end
       
       def value(key)
-        @values[key.to_sym]
+        @attributes[key.to_sym]
       end
       alias_method :[], :value
       
