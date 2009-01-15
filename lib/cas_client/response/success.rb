@@ -2,7 +2,7 @@ module CasClient
   
   module Response
     
-    class Valid < Base
+    class Success < Base
       
       attr_reader :profile
       

@@ -9,7 +9,7 @@ module CasClient
         def parse(response_body)
           document = Nokogiri::XML(response_body)
           if !document.xpath("//*[name() = 'cas:authenticationSuccess']").empty?
-            CasClient::Response::Valid.new(document)
+            CasClient::Response::Success.new(document)
           elsif !document.xpath("//*[name() = 'cas:authenticationFailure']").empty?
             CasClient::Response::Failure.new(document)
           else

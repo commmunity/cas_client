@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe CasClient::Response::Valid do
+describe CasClient::Response::Success do
   
   it 'raise an error if document is invalid' do
     lambda {
-      CasClient::Response::Valid.new(Nokogiri::XML(%q{
+      CasClient::Response::Success.new(Nokogiri::XML(%q{
         <?xml version="1.0" encoding="UTF-8"?>
         <cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
             <cas:authenticationFailure code="INVALID_TICKET">
@@ -16,7 +16,7 @@ describe CasClient::Response::Valid do
   end
   
   it "it retrieve user's profile" do
-    response = CasClient::Response::Valid.new(Nokogiri::XML(%q{
+    response = CasClient::Response::Success.new(Nokogiri::XML(%q{
       <?xml version="1.0" encoding="UTF-8"?>
       <cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
           <cas:authenticationSuccess>

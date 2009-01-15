@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe CasClient::Response::Base do
   
-  it 'parses a valid response body' do
+  it 'parses a success response body' do
     response = CasClient::Response::Base.parse(%q{
       <?xml version="1.0" encoding="UTF-8"?>
       <cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
@@ -17,7 +17,7 @@ describe CasClient::Response::Base do
       </cas:serviceResponse>
     })
     
-    response.should be_an_instance_of(CasClient::Response::Valid)
+    response.should be_an_instance_of(CasClient::Response::Success)
   end
   
   it 'parses an invalid response body' do
