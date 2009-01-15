@@ -21,11 +21,18 @@ describe CasClient::Response::Valid do
       <cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
           <cas:authenticationSuccess>
               <cas:user>john@example.com</cas:user>
+              <sc:profile xmlns:sc='http://slashcommunity.com/sc'>
+                  <email>john@example.com</email>
+                  <firstname>john</firstname>
+                  <lastname>doe</lastname>
+              </sc:profile>
           </cas:authenticationSuccess>
       </cas:serviceResponse>
     }))
     
-    response.profile['user'].should == 'john@example.com'
+    response.profile[:email].should == 'john@example.com'
+    response.profile[:firstname].should == 'john'
+    response.profile[:lastname].should == 'doe'
   end
   
 end

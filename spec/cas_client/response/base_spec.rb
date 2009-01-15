@@ -8,6 +8,11 @@ describe CasClient::Response::Base do
       <cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
           <cas:authenticationSuccess> 
               <cas:user>username</cas:user> 
+              <sc:profile xmlns:sc='http://slashcommunity.com/sc'>
+                  <email>john@example.com</email>
+                  <firstname>john</firstname>
+                  <lastname>doe</lastname>
+              </sc:profile>
           </cas:authenticationSuccess>
       </cas:serviceResponse>
     })

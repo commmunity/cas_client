@@ -5,10 +5,7 @@ module CasClient
     class Profile
       
       def initialize(values)
-        @values = values.inject({}) do |options, (key, value)|
-          options[key.to_sym] = value
-          options
-        end
+        @values = values.with_indifferent_access
       end
       
       def [](key)

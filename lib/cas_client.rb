@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'active_support'
 require 'net/http'
 require 'open-uri'
 require 'cgi'
