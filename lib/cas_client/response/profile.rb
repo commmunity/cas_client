@@ -4,10 +4,12 @@ module CasClient
     
     class Profile
       
+      include CasClient::Logger
       include Enumerable
       
       def initialize(attributes)
         @attributes = attributes.with_indifferent_access
+        logger.debug("[CAS] Profile is: #{self}")
       end
       
       def attributes(*keys)
@@ -27,6 +29,10 @@ module CasClient
         @attributes[key.to_sym]
       end
       alias_method :[], :value
+      
+      def to_s
+        @attributes.inspect
+      end
       
     end
     

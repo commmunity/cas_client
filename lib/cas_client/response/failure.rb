@@ -4,11 +4,14 @@ module CasClient
     
     class Failure < Base
       
+      include CasClient::Logger
+
       attr_reader :code
       attr_reader :error
       
       def initialize(document)
         super(document)
+        logger.debug('[CAS] Response is failure')
         @node = self.document.xpath("//*[name() = 'cas:authenticationFailure']").first
         raise CasClient::Error.new("Can't parse document") unless @node
         @code = fetch_code

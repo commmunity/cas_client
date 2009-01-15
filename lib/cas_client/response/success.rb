@@ -4,10 +4,13 @@ module CasClient
     
     class Success < Base
       
+      include CasClient::Logger
+      
       attr_reader :profile
       
       def initialize(document)
         super(document)
+        logger.debug('[CAS] Response is success')
         @profile = fetch_profile
       end
       

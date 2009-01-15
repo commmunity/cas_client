@@ -6,7 +6,10 @@ module CasClient
       
       class << self
         
+        include CasClient::Logger
+        
         def parse(response_body)
+          logger.debug("[CAS] Received from server: #{response_body.inspect}")
           document = Nokogiri::XML(response_body)
           if !document.xpath("//*[name() = 'cas:authenticationSuccess']").empty?
             CasClient::Response::Success.new(document)
