@@ -6,13 +6,13 @@ module CasClient
       
       def initialize(values)
         @values = values.inject({}) do |options, (key, value)|
-          options[key.to_s] = value
+          options[key.to_sym] = value
           options
         end
       end
       
       def [](key)
-        @values[key.to_s]
+        @values[key.to_sym]
       end
       
     end
