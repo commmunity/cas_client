@@ -13,8 +13,8 @@ describe CasClient::Request do
   end
   
   it 'use ticket request parameter' do
-    CasClient::Request.new('http://example.com', 'bar' => 'foo').ticket?.should be_false
-    CasClient::Request.new('http://example.com', 'ticket' => 'foo').ticket?.should be_true
+    CasClient::Request.new('http://example.com', 'bar' => 'foo').should_not be_validable
+    CasClient::Request.new('http://example.com', 'ticket' => 'foo').should be_validable
   end
   
 end

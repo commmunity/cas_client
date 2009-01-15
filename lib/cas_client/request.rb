@@ -22,7 +22,7 @@ module CasClient
       provider.logout_url
     end
     
-    def ticket?
+    def validable?
       !ticket.nil?
     end
     
