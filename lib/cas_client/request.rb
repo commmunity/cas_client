@@ -22,7 +22,7 @@ module CasClient
     
     def logout_url(destination = nil)
       returning(provider.logout_url) do |url|
-        url.query = "destination=#{CGI.escape(destination)}" if destination.present?
+        url.query = "destination=#{CGI.escape(destination)}" unless destination.blank?
       end
     end
     
