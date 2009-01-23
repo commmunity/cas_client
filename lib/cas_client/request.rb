@@ -14,9 +14,11 @@ module CasClient
       @ticket = params['ticket']
     end
     
-    def login_url
+    # Available options are: :renew (default: false)
+    def login_url(options = {})
       returning(provider.login_url) do |url|
         url.query = "service=#{CGI.escape(service_url)}"
+        url.query << '&renew=true' if options[:renew]
       end
     end
     
