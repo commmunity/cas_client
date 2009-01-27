@@ -33,7 +33,7 @@ module CasClient
     end
     
     # TODO SSL
-    def validate(options = { :timeout => 10 })
+    def validate(options = { :timeout => 5 })
       url = provider.validate_url
       logger.debug("[CAS] Posting request to: #{url}")
       logger.debug("[CAS] Ticket: #{ticket}")
@@ -43,6 +43,7 @@ module CasClient
       # Building connection
       cnx = Net::HTTP.new(url.host, url.port)
       cnx.open_timeout = options[:timeout]
+      cnx.read_timeout = options[:timeout]
       # Starting connection
       cnx.start do |http|
         http.request(request) do |response|
