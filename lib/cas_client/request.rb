@@ -51,7 +51,7 @@ module CasClient
           return CasClient::Response::Base.parse(response.body)
         end
       end
-    rescue => e
+    rescue Timeout::Error, StandardError => e
       raise CasClient::Error.new(e, url)
     end
     
