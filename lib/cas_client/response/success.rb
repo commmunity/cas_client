@@ -24,8 +24,12 @@ module CasClient
       
       def xml_to_hash(xml)
         hash = Hash.from_xml(xml.to_s)['profile']
+        return {} unless hash.is_a?(Hash)
         hash.delete('xmlns:sc')
         hash
+      rescue => e
+        logger.debug(e.message)
+        {}
       end
       
     end

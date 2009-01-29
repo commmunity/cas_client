@@ -9,7 +9,11 @@ module CasClient
       
       def initialize(attributes)
         @attributes = attributes.with_indifferent_access
-        logger.debug("[CAS] Profile is: #{self}")
+        if empty?
+          logger.warn('[CAS] WARN: profile is empty')
+        else
+          logger.debug("[CAS] Profile is: #{self}")
+        end
       end
       
       def attributes(*keys)
@@ -23,6 +27,10 @@ module CasClient
       
       def each(&block)
         @attributes.each(&block)
+      end
+      
+      def empty?
+        @attributes.empty?
       end
       
       def value(key)

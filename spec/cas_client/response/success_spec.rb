@@ -35,4 +35,19 @@ describe CasClient::Response::Success do
     response.profile[:lastname].should == 'doe'
   end
   
+  it "doesn't fails if profile is empty" do
+    response = CasClient::Response::Success.new(Nokogiri::XML(%q{
+      <?xml version="1.0" encoding="UTF-8"?>
+      <cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+          <cas:authenticationSuccess>
+              <cas:user>john@example.com</cas:user>
+              <sc:profile xmlns:sc='http://slashcommunity.com/sc'>
+              </sc:profile>
+          </cas:authenticationSuccess>
+      </cas:serviceResponse>
+    }))
+    
+    response.profile.should be_empty
+  end
+  
 end

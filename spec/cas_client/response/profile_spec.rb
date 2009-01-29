@@ -4,6 +4,7 @@ describe CasClient::Response::Profile do
   
   it 'has values' do
     profile = CasClient::Response::Profile.new(:firstname => 'john', 'avatar_url' => 'http://example.com/image.jpg')
+    profile.should_not be_empty
     profile['firstname'].should == 'john'
     profile.value(:avatar_url).should == 'http://example.com/image.jpg'
   end

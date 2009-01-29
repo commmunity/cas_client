@@ -7,6 +7,9 @@ module CasClient
       def debug(*args)
       end
       
+      def warn(*args)
+      end
+      
     end
     
     mattr_accessor :logger
