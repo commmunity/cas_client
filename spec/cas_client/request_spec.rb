@@ -7,9 +7,14 @@ describe CasClient::Request do
     request.login_url.should == URI.parse('http://localhost:3001/cas/login?service=http%3A%2F%2Fexample.com')
   end
   
-  it 'returns login url with renew parameter' do
+  it 'returns login url with parameters' do
     request = CasClient::Request.new('http://example.com')
-    request.login_url(:renew => true).should == URI.parse('http://localhost:3001/cas/login?service=http%3A%2F%2Fexample.com&renew=true')
+    url = request.login_url(:auth => 'autologin', :renew => true, :type => 'acceptor').to_s
+    
+    url.should match(/service=http%3A%2F%2Fexample.com/)
+    url.should match(/type=acceptor/)
+    url.should match(/renew=true/)
+    url.should match(/type=acceptor/)
   end
   
   it 'returns logout url' do

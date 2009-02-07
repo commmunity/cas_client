@@ -14,12 +14,13 @@ module CasClient
       @provider = provider
     end
     
-    # Available options are: renew (default: false)
-    def login_url(options = {})
-      returning(provider.login_url) do |url|
-        url.query = "service=#{CGI.escape(service_url.to_s)}"
-        url.query << '&renew=true' if options[:renew]
-      end
+    def login_url(params = {})
+      url = provider.login_url
+      query = params.merge(:service => service_url.to_s).map do |name, value|
+        "#{name}=#{CGI.escape(value.to_s)}"
+      end.join('&')
+      url.query = query if query.present?
+      url
     end
     
     # Available options are: destination
