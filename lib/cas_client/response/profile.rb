@@ -17,12 +17,7 @@ module CasClient
       end
       
       def attributes(*keys)
-        returning({}.with_indifferent_access) do |attributes|
-          keys.each do |key|
-            value = @attributes[key]
-            attributes[key] = value unless value.nil?
-          end
-        end
+        @attributes.slice(*keys)
       end
       
       def each(&block)
