@@ -2,14 +2,14 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe CasClient::ServiceProvider::Base do
 
-  it 'has a default url to http://localhost:3001' do
-    CasClient::ServiceProvider::Base.default_url.should == URI.parse('http://localhost:3001')
+  it 'has a default url to http://localhost:3002' do
+    CasClient::ServiceProvider::Base.default_url.should == URI.parse('http://localhost:3002')
   end
   
   it 'default url can be modified' do
     CasClient::ServiceProvider::Base.default_url = 'http://example.com:4242'
     CasClient::ServiceProvider::Base.default_url.should == URI.parse('http://example.com:4242')
-    CasClient::ServiceProvider::Base.default_url = 'http://localhost:3001'
+    CasClient::ServiceProvider::Base.default_url = 'http://localhost:3002'
   end
   
   it 'url can be specified on initialization' do

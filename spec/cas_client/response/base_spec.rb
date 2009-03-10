@@ -49,7 +49,7 @@ describe CasClient::Response::Base do
   it 'parse an invalid xml response body' do
     lambda {
       CasClient::Response::Base.parse('BAM!')
-    }.should raise_error(CasClient::Error, "Can't parse response body")
+    }.should raise_error(CasClient::Error)
   end
   
 end
