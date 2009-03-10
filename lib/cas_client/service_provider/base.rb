@@ -16,7 +16,7 @@ module CasClient
         
       end
       
-      self.default_url = 'http://localhost:3001'
+      self.default_url = 'http://localhost:3002'
       
       attr_reader :url
       
