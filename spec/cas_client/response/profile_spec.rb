@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe CasClient::Response::Profile do
-  
+describe CasClient::Response::Profile do 
   it 'has values' do
     profile = CasClient::Response::Profile.new(:firstname => 'john', 'avatar_url' => 'http://example.com/image.jpg')
     profile.should_not be_empty
@@ -9,10 +8,9 @@ describe CasClient::Response::Profile do
     profile.value(:avatar_url).should == 'http://example.com/image.jpg'
   end
   
-  it 'can retrieve specific attributes' do
+  it 'can retrieve attributes' do
     profile = CasClient::Response::Profile.new(:firstname => 'john', 'lastname' => 'doe', 'avatar_url' => 'http://example.com/image.jpg')
-    attributes = profile.attributes('firstname', :lastname)
-    attributes.size.should be(2)
+    attributes = profile.attributes
     attributes[:firstname].should == 'john'
     attributes['lastname'].should == 'doe'
   end
@@ -25,4 +23,8 @@ describe CasClient::Response::Profile do
     end
   end
   
+  it 'grab role_label from params "role"' do
+     profile = CasClient::Response::Profile.new(:firstname => 'john', 'lastname' => 'doe', 'avatar_url' => 'http://example.com/image.jpg', 'role' => 'admin')
+     profile.role_label.should == 'admin'
+  end
 end

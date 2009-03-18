@@ -7,6 +7,8 @@ module CasClient
       include CasClient::Logger
       include Enumerable
       
+      attr_reader :attributes
+      
       def initialize(attributes)
         @attributes = attributes.with_indifferent_access
         if empty?
@@ -16,16 +18,16 @@ module CasClient
         end
       end
       
-      def attributes(*keys)
-        @attributes.slice(*keys)
-      end
-      
       def each(&block)
         @attributes.each(&block)
       end
       
       def empty?
         @attributes.empty?
+      end
+      
+      def role_label
+        @attributes['role']
       end
       
       def value(key)
