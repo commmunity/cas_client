@@ -38,4 +38,8 @@ describe CasClient::Request do
     CasClient::Request.new('http://example.com', :ticket => 'foo').should be_validable
   end
   
+  it 'removes query and fragment on service url' do
+    CasClient::Request.new('http://example.com?foo=bar#toto', :bar => 'foo').service_url.should == URI.parse('http://example.com')
+  end
+  
 end

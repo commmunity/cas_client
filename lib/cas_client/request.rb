@@ -65,6 +65,8 @@ module CasClient
     
     def service_url=(url)
       @service_url = url.is_a?(URI) ? url : URI.parse(url)
+      @service_url.query = nil
+      @service_url.fragment = nil
     rescue => e
       raise CasClient::Error.new(e)
     end
