@@ -15,19 +15,16 @@ module CasClient
     end
     
     def login_url(params = {})
-      url = provider.login_url
-      query = params.merge(:service => service_url.to_s).map do |name, value|
-        "#{name}=#{CGI.escape(value.to_s)}"
-      end.join('&')
-      url.query = query if query.present?
-      url
+      build_url(provider.login_url, params.reverse_merge(:service => service_url))
     end
     
     # Available options are: destination
     def logout_url(options = {})
-      returning(provider.logout_url) do |url|
-        url.query = "destination=#{CGI.escape(options[:destination])}" if options[:destination].present?
-      end
+      build_url(provider.logout_url, options.slice(:destination))
+    end
+    
+    def signup_url(params = {})
+      build_url(provider.signup_url, params.reverse_merge(:service => service_url))
     end
     
     def ticket
@@ -62,6 +59,16 @@ module CasClient
     end
     
     private
+    
+    def build_url(url, params)
+      url = url.dup
+      query = params.map do |name, value|
+        next if value.nil?
+        "#{name}=#{CGI.escape(value.to_s)}"
+      end.join('&')
+      url.query = query if query.present?
+      url
+    end
     
     def service_url=(url)
       @service_url = url.is_a?(URI) ? url : URI.parse(url)

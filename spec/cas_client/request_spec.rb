@@ -17,9 +17,19 @@ describe CasClient::Request do
     url.should match(/type=acceptor/)
   end
   
+  it 'returns login url with service url overridden' do
+    request = CasClient::Request.new('http://example.com')
+    request.login_url(:service => 'http://service.net').should == URI.parse('http://localhost:3002/cas/login?service=http%3A%2F%2Fservice.net')
+  end
+  
   it 'returns logout url' do
     request = CasClient::Request.new('http://example.com')
     request.logout_url.should == URI.parse('http://localhost:3002/cas/logout')
+  end
+  
+  it 'returns signup url' do
+    request = CasClient::Request.new('http://example.com')
+    request.signup_url.should == URI.parse('http://localhost:3002/identities/new?service=http%3A%2F%2Fexample.com')
   end
   
   it 'returns logout url with a destination' do

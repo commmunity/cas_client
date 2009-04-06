@@ -17,11 +17,12 @@ describe CasClient::ServiceProvider::Base do
     provider.url.should == URI.parse('http://example.com')
   end
   
-  it 'can determines login logout and validate url' do
+  it 'can determines login logout validate and signup url' do
     provider = CasClient::ServiceProvider::Base.new('http://example.com:4243')
     
     provider.login_url.should == URI.parse('http://example.com:4243/cas/login')
     provider.logout_url.should == URI.parse('http://example.com:4243/cas/logout')
+    provider.signup_url.should == URI.parse('http://example.com:4243/identities/new')
     provider.validate_url.should == URI.parse('http://example.com:4243/cas/serviceValidate')
   end
 

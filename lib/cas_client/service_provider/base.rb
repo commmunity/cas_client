@@ -32,6 +32,10 @@ module CasClient
         build_url('/cas/logout')
       end
       
+      def signup_url
+        build_url('/identities/new')
+      end
+      
       def validate_url
         build_url('/cas/serviceValidate')
       end
