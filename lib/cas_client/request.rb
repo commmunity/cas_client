@@ -39,6 +39,7 @@ module CasClient
     def validate(options = { :timeout => 5 })
       url = provider.validate_url
       logger.debug("[CAS] Posting request to: #{url}")
+      logger.debug("[CAS] Service URL: #{service_url}")
       logger.debug("[CAS] Ticket: #{ticket}")
       # Building request
       request = Net::HTTP::Post.new(url.path)
@@ -72,8 +73,15 @@ module CasClient
     
     def service_url=(url)
       @service_url = url.is_a?(URI) ? url : URI.parse(url)
-      @service_url.query = nil
       @service_url.fragment = nil
+      params = (@service_url.query || '').split('&').inject({}) do |h, chunk| 
+        key, value = chunk.split('=', 2)
+        h[key] = value
+        h
+      end
+      query = params.except('ticket').to_query
+      query = nil if query.empty?
+      @service_url.query = query
     rescue => e
       raise CasClient::Error.new(e)
     end
