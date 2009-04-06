@@ -43,9 +43,9 @@ describe CasClient::Request do
     }.should raise_error(CasClient::Error)
   end
   
-  it 'use ticket request parameter' do
-    CasClient::Request.new('http://example.com', :bar => 'foo').should_not be_validable
-    CasClient::Request.new('http://example.com', :ticket => 'foo').should be_validable
+  it 'is validable if ticket parameter is present' do
+    CasClient::Request.should_not be_validable(:bar => 'foo')
+    CasClient::Request.should_not be_validable(:ticket => 'foo')
   end
   
   it 'removes fragment on service url' do

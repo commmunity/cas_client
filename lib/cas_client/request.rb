@@ -4,6 +4,14 @@ module CasClient
     
     include CasClient::Logger
     
+    class << self
+      
+      def validable?(params)
+        params['ticket'].present?
+      end
+      
+    end
+    
     attr_reader :params
     attr_reader :provider
     attr_reader :service_url
@@ -29,10 +37,6 @@ module CasClient
     
     def ticket
       params[:ticket]
-    end
-    
-    def validable?
-      !ticket.nil?
     end
     
     # TODO SSL
