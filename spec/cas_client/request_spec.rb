@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe CasClient::Request do
   
-  it 'returns login url' do
+  it 'returns login url from service provider' do
     request = CasClient::Request.new('http://example.com')
     request.login_url.should == URI.parse('http://localhost:3002/cas/login?service=http%3A%2F%2Fexample.com')
   end
