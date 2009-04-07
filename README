@@ -1,13 +1,8 @@
-CasClient
-=========
+# CasClient
 
-Introduction goes here.
+Provides authentication to a cas server.
 
+## Configuration
 
-Example
-=======
-
-Example goes here.
-
-
-Copyright (c) 2008 [name of plugin creator], released under the MIT license
+- SSL: `CasClient::ServiceProvider::Base.ssl = true`
+- Static URLs: `CasClient::ServiceProvider::Base.use_static_url_for(:validate, 'http://localhost:3042')`
