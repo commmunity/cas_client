@@ -2,7 +2,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe CasClient::Request do
   
-  it 'returns login url from service provider' do
+  after :each do
+    CasClient::ServiceProvider::Base.ssl = false
+  end
+  
+  it 'returns login url with service' do
     request = CasClient::Request.new('http://example.com')
     request.login_url.should == URI.parse('http://localhost:3002/cas/login?service=http%3A%2F%2Fexample.com')
   end
@@ -52,6 +56,18 @@ describe CasClient::Request do
     CasClient::Request.new('http://example.com?tata=bar&ticket=titi#toto').service_url.should == URI.parse('http://example.com?tata=bar')
     CasClient::Request.new('http://example.com?ticket=bam&bar=foo').service_url.should == URI.parse('http://example.com?bar=foo')
     CasClient::Request.new('http://example.com?ticket=bam').service_url.should == URI.parse('http://example.com')
+  end
+  
+  it 'supports ssl' do
+    CasClient::ServiceProvider::Base.ssl = true
+
+    provider = CasClient::ServiceProvider::Base.new('http://www.google.com/')
+    request = CasClient::Request.new('https://example.com', {}, provider)
+    provider.stub!(:url_for).and_return(URI.parse('https://www.google.com/accounts/LoginAuth'))
+      
+    lambda {
+      request.validate
+    }.should raise_error(CasClient::Error) { |e| e.message.should == "Can't parse response body" }
   end
   
 end

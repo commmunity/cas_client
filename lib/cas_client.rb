@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'active_support'
 require 'net/http'
+require 'net/https'
 require 'open-uri'
 require 'cgi'
 require 'nokogiri'

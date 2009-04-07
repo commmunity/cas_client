@@ -38,19 +38,29 @@ module CasClient
       params[:ticket]
     end
     
-    # TODO SSL
     def validate(options = { :timeout => 5 })
-      url = url_for(:validate)
+      url = provider.url_for(:validate)
+
       logger.debug("[CAS] Posting request to: #{url}")
       logger.debug("[CAS] Service URL: #{service_url}")
       logger.debug("[CAS] Ticket: #{ticket}")
+
       # Building request
       request = Net::HTTP::Post.new(url.path)
       request.set_form_data(:service => service_url.to_s, :ticket => ticket)
+
       # Building connection
       cnx = Net::HTTP.new(url.host, url.port)
       cnx.open_timeout = options[:timeout]
       cnx.read_timeout = options[:timeout]
+
+      # SSL configuration
+      if url.scheme == 'https'
+        cnx.use_ssl = true
+        cnx.verify_mode = OpenSSL::SSL::VERIFY_NONE # TODO we MUST later verify SSL certificate!
+        cnx.verify_depth = 5
+      end
+
       # Starting connection
       cnx.start do |http|
         http.request(request) do |response|

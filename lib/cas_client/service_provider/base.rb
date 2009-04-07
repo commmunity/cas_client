@@ -46,7 +46,11 @@ module CasClient
         url = (@@static_urls[action.to_sym] || base_url).dup
         
         # ssl?
-        url.scheme = 'https' if self.class.ssl?
+        if self.class.ssl?
+          url.scheme = 'https' 
+          url = URI.parse(url.to_s) # to build a URI::HTTPS
+        end
+        
         
         # path
         url.path = path

@@ -1,6 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe CasClient::ServiceProvider::Base do
+  
+  after :each do
+    CasClient::ServiceProvider::Base.ssl = false
+  end
 
   it 'base url is specified on initialization' do
     provider = CasClient::ServiceProvider::Base.new('http://example.com')
@@ -45,9 +49,7 @@ describe CasClient::ServiceProvider::Base do
     }.should change(CasClient::ServiceProvider::Base, :ssl?).from(false).to(true)
     
     provider = CasClient::ServiceProvider::Base.new('http://example.com')
-    provider.url_for(:login).to_s.should == 'https://example.com/cas/login'
-    
-    CasClient::ServiceProvider::Base.ssl = false
+    provider.url_for(:login).should == URI.parse('https://example.com/cas/login')
   end
 
 end
