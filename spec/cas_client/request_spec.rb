@@ -52,7 +52,7 @@ describe CasClient::Request do
     CasClient::Request.should_not be_validable(:ticket => 'foo')
   end
   
-  it 'removes fragment on service url' do
+  it 'removes fragment and ticket on service url' do
     CasClient::Request.new('http://example.com?tata=bar&ticket=titi#toto').service_url.should == URI.parse('http://example.com?tata=bar')
     CasClient::Request.new('http://example.com?ticket=bam&bar=foo').service_url.should == URI.parse('http://example.com?bar=foo')
     CasClient::Request.new('http://example.com?ticket=bam').service_url.should == URI.parse('http://example.com')

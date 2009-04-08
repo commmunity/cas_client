@@ -77,14 +77,10 @@ module CasClient
     def service_url=(url)
       @service_url = url.is_a?(URI) ? url : URI.parse(url)
       @service_url.fragment = nil
-      params = (@service_url.query || '').split('&').inject({}) do |h, chunk| 
-        key, value = chunk.split('=', 2)
-        h[key] = value
-        h
+      if @service_url.query.present?
+        @service_url.query.gsub!(/[\&]?ticket=[^\&]*\&?/, '')
+        @service_url.query = nil if @service_url.query.empty?
       end
-      query = params.except('ticket').to_query
-      query = nil if query.empty?
-      @service_url.query = query
     rescue => e
       raise CasClient::Error.new(e)
     end
