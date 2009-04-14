@@ -18,7 +18,7 @@ module CasClient
         
         def use_static_url_for(action, url)
           raise "Unknown action: #{action}" unless ACTION_MAPPING.key?(action.to_sym)
-          @@static_urls[action] = (url.is_a?(URI::HTTP) ? url : URI.parse(url)).freeze
+          @@static_urls[action.to_sym] = (url.is_a?(URI::HTTP) ? url : URI.parse(url)).freeze
         end
         
         def reset_static_url_for(action)

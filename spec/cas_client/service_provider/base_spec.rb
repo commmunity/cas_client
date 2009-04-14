@@ -35,7 +35,7 @@ describe CasClient::ServiceProvider::Base do
   it 'can use and reset static url for some actions' do
     provider = CasClient::ServiceProvider::Base.new('http://example.com:4243')
 
-    CasClient::ServiceProvider::Base.use_static_url_for(:validate, 'http://localhost')
+    CasClient::ServiceProvider::Base.use_static_url_for('validate', 'http://localhost')
     provider.url_for(:signup).should == URI.parse('http://example.com:4243/identities/new')
     provider.url_for(:validate).should == URI.parse('http://localhost/cas/serviceValidate')
     
