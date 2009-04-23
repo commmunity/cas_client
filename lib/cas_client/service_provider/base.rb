@@ -5,6 +5,7 @@ module CasClient
     class Base
       
       ACTION_MAPPING = {
+        :edit_profile => '/identities/:id/edit',
         :login => '/cas/login',
         :logout => '/cas/logout',
         :signup => '/identities/new',
@@ -44,6 +45,7 @@ module CasClient
       def url_for(action, params = {})
         path = ACTION_MAPPING[action.to_sym] || raise("Unknown action: #{action}")
         url = (@@static_urls[action.to_sym] || base_url).dup
+        params = params.dup
         
         # ssl?
         if self.class.ssl?
@@ -51,9 +53,12 @@ module CasClient
           url = URI.parse(url.to_s) # to build a URI::HTTPS
         end
         
-        
         # path
-        url.path = path
+        url.path = path.gsub(/\:\w+/) do |part|
+          name = part[1..-1].to_sym
+          value = params[name]
+          value ? params.delete(name) : part
+        end
         
         # query
         query = params.map do |name, value|

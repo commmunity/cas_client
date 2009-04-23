@@ -20,6 +20,14 @@ describe CasClient::ServiceProvider::Base do
     provider.url_for(:validate).should == URI.parse('http://example.com:4243/cas/serviceValidate')
   end
   
+  it 'can replace parameters in path' do
+    provider = CasClient::ServiceProvider::Base.new('http://example.com:4243')
+    
+    provider.url_for(:edit_profile).should == URI.parse('http://example.com:4243/identities/:id/edit')
+    provider.url_for(:edit_profile, :id => 12).should == URI.parse('http://example.com:4243/identities/12/edit')
+    provider.url_for(:edit_profile, :id => 12, :value => '42').should == URI.parse('http://example.com:4243/identities/12/edit?value=42')
+  end
+  
   it 'can add query parameters' do
     provider = CasClient::ServiceProvider::Base.new('http://example.com:4242')
     
