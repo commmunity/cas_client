@@ -22,6 +22,10 @@ module CasClient
       @provider = provider
     end
     
+    def edit_profile_url(params = {})
+      provider.url_for(:edit_profile, params.reverse_merge(:service => service_url))
+    end
+    
     def login_url(params = {})
       provider.url_for(:login, params.reverse_merge(:service => service_url))
     end

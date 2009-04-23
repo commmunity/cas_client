@@ -36,6 +36,11 @@ describe CasClient::Request do
     request.signup_url.should == URI.parse('http://localhost:3002/identities/new?service=http%3A%2F%2Fexample.com')
   end
   
+  it 'returns edit profile url with service' do
+    request = CasClient::Request.new('http://example.com')
+    request.edit_profile_url(:id => 42).should == URI.parse('http://localhost:3002/identities/42/edit?service=http%3A%2F%2Fexample.com')
+  end
+  
   it 'returns logout url with a destination' do
     request = CasClient::Request.new('http://example.com')
     request.logout_url(:destination => 'http://example.net').should == URI.parse('http://localhost:3002/cas/logout?destination=http%3A%2F%2Fexample.net')
