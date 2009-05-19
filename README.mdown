@@ -50,7 +50,7 @@ application business logic that is not supposed to be sharable between apps.
         
         # The service provider is an instance for cas_server URL mapping.
         def cas_service_provider
-          @cas_service_provider ||= CasClient::ServiceProvider::Base.new(request.url)
+          @cas_service_provider ||= CasClient::ServiceProvider::Base.new('http://my_cas_server.example.com/')
         end
         
         def cas_service_url
