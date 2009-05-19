@@ -9,8 +9,8 @@ client on same app, it will not create an HTTP request, it use Rack directly.
 
 ## Checking cas request
 
-Here is lines that you must add into your `ApplicationController` or in another
-plugin.
+Here is lines that you must add into your `ApplicationController` for checking
+cas request.
 
     class ApplicationController < ActionController::Base
     
