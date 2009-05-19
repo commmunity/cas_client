@@ -4,13 +4,13 @@ Provides authentication to a CAS server. Cas authentication works as a filter
 on each HTTP request. If `ticket` parameter is provided, CAS request must be
 created and validated.
 
-If you use [CAS Server](http://github.com/nel/cas_server/tree/master/) and CAS
-client on same app, it will not create an HTTP request, it use Rack directly.
+If you use [CasServer](http://github.com/nel/cas_server/tree/master/) and CasClient on same app, it will not create an HTTP request and directly proxy the request through Rack.
 
-## Checking cas request
+## Checking CAS request
 
-Here is lines that you must add into your `ApplicationController` for checking
-cas request.
+Here is some example code that you must add into your service provider
+`ApplicationController` for checking` cas request. You have to implement some simple 
+local authentication if you don't want to query CasServer at every request (= Cas in Gateway mode). Usually you need local User table to store application business logic that is not supposed to be sharable between apps.
 
     class ApplicationController < ActionController::Base
     
@@ -59,7 +59,7 @@ cas request.
 
 ### SSL
 
-If you need to use SSL, add following line to your `production.rb`:
+If you want to use SSL, add following line to your `production.rb`:
 
     CasClient::ServiceProvider::Base.ssl = true
 
