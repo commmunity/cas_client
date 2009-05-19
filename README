@@ -1,8 +1,73 @@
 # CasClient
 
-Provides authentication to a cas server.
+Provides authentication to a CAS server. Cas authentication works as a filter
+on each HTTP request. If `ticket` parameter is provided, CAS request must be
+created and validated.
+
+If you use [CAS Server](http://github.com/nel/cas_server/tree/master/) and CAS
+client on same app, it will not create an HTTP request, it use Rack directly.
+
+## Checking cas request
+
+Here is lines that you must add into your `ApplicationController` or in another
+plugin.
+
+    class ApplicationController < ActionController::Base
+    
+        before_filter :check_cas_request
+        helper_method :login_url
+        
+        def login_url(params = {})
+          cas_request.login_url(params).to_s
+        end
+    
+        private
+        
+        def authenticate!(profile)
+          # find or create from response profile and sets the user's id into
+          # session.
+        end
+        
+        def check_cas_request
+          return unless CasClient::Request.validable?(params)
+          self.current_user = nil
+          response = cas_request.validate
+          if response.is_a?(CasClient::Response::Success)
+            authenticate!(response.profile)
+            redirect_to(cas_request.service_url.to_s) # we redirect for removing ticket parameter
+          else
+            redirect_to(login_url(:renew => true))
+          end
+        end
+    
+        def cas_request
+          @cas_request ||= CasClient::Request.new(cas_service_url, params, cas_service_provider)
+        end
+        
+        # The service provider is an instance for CAS server URL mapping.
+        def cas_service_provider
+          @cas_service_provider ||= CasClient::ServiceProvider::Base.new(request.url)
+        end
+        
+        def cas_service_url
+          request.get? && !request.xhr? ? request.url : root_url
+        end
+    
+    end
 
 ## Configuration
 
-- SSL: `CasClient::ServiceProvider::Base.ssl = true`
-- Static URLs: `CasClient::ServiceProvider::Base.use_static_url_for(:validate, 'http://localhost:3042')`
+### SSL
+
+If you need to use SSL, add following line to your `production.rb`:
+
+    CasClient::ServiceProvider::Base.ssl = true
+
+### Static URLs
+
+If you need to use static URLs for some services (for example if your have
+firewall issues), you can specify it into your `production.rb`:
+
+    CasClient::ServiceProvider::Base.use_static_url_for(:validate, 'http://localhost:3042')
+
+Here we use a static URL for `validate` action.

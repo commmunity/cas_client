@@ -22,9 +22,4 @@ describe CasClient::Response::Profile do
       profile.value(key)
     end
   end
-  
-  it 'grab role_label from params "role"' do
-     profile = CasClient::Response::Profile.new(:firstname => 'john', 'lastname' => 'doe', 'avatar_url' => 'http://example.com/image.jpg', 'role' => 'admin')
-     profile.role_label.should == 'admin'
-  end
 end

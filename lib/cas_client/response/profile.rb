@@ -26,10 +26,6 @@ module CasClient
         @attributes.empty?
       end
       
-      def role_label
-        @attributes['role']
-      end
-      
       def value(key)
         @attributes[key.to_sym]
       end
