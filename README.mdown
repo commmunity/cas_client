@@ -1,16 +1,20 @@
 # CasClient
 
-Provides authentication to a CAS server. Cas authentication works as a filter
+Provides authentication to a cas_server. Cas authentication works as a filter
 on each HTTP request. If `ticket` parameter is provided, CAS request must be
 created and validated.
 
-If you use [CasServer](http://github.com/nel/cas_server/tree/master/) and CasClient on same app, it will not create an HTTP request and directly proxy the request through Rack.
+If you use [cas_server](http://github.com/nel/cas_server/tree/master/) and
+CasClient on same app, it will not create an HTTP request and directly proxy
+the request through Rack.
 
 ## Checking CAS request
 
 Here is some example code that you must add into your service provider
-`ApplicationController` for checking` cas request. You have to implement some simple 
-local authentication if you don't want to query CasServer at every request (= Cas in Gateway mode). Usually you need local User table to store application business logic that is not supposed to be sharable between apps.
+`ApplicationController` for checking` cas request. You have to implement some
+simple  local authentication if you don't want to query CasServer at every
+request (= Cas in Gateway mode). Usually you need local User table to store
+application business logic that is not supposed to be sharable between apps.
 
     class ApplicationController < ActionController::Base
     
@@ -44,7 +48,7 @@ local authentication if you don't want to query CasServer at every request (= Ca
           @cas_request ||= CasClient::Request.new(cas_service_url, params, cas_service_provider)
         end
         
-        # The service provider is an instance for CAS server URL mapping.
+        # The service provider is an instance for cas_server URL mapping.
         def cas_service_provider
           @cas_service_provider ||= CasClient::ServiceProvider::Base.new(request.url)
         end
@@ -54,6 +58,21 @@ local authentication if you don't want to query CasServer at every request (= Ca
         end
     
     end
+
+## URL mapping
+
+Here is all actions to cas_server:
+
+- `:edit_profile` (`/identities/:id/edit`) :
+   URL for editing user's profile (not in cas API reference).
+- `:login` (`/cas/login`) :
+   Signin URL.
+- `:logout` (`/cas/logout`) :
+   Logout URL.
+- `:signup` (`/identities/new`) :
+   Signup URL (not in cas API reference).
+- `:validate` (`/cas/serviceValidate`) :
+   URL for validating ticket (internal request).
 
 ## Configuration
 
@@ -70,4 +89,8 @@ firewall issues), you can specify it into your `production.rb`:
 
     CasClient::ServiceProvider::Base.use_static_url_for(:validate, 'http://localhost:3042')
 
-Here we use a static URL for `validate` action.
+Here we use a static URL for `validate` action. Note that you can't yet change
+URL path.
+
+Copyright (c) 2009 Alexis Toulotte, Dimelo
+Licenced under MIT
