@@ -59,21 +59,6 @@ application business logic that is not supposed to be sharable between apps.
     
     end
 
-## URL mapping
-
-Here is all actions to cas_server:
-
-- `:edit_profile` (`/identities/:id/edit`) :
-   URL for editing user's profile (not in cas API reference).
-- `:login` (`/cas/login`) :
-   Signin URL.
-- `:logout` (`/cas/logout`) :
-   Logout URL.
-- `:signup` (`/identities/new`) :
-   Signup URL (not in cas API reference).
-- `:validate` (`/cas/serviceValidate`) :
-   URL for validating ticket (internal request).
-
 ## Configuration
 
 ### SSL
@@ -89,8 +74,27 @@ firewall issues), you can specify it into your `production.rb`:
 
     CasClient::ServiceProvider::Base.use_static_url_for(:validate, 'http://localhost:3042')
 
-Here we use a static URL for `validate` action. Note that you can't yet change
-URL path.
+Here we use a static URL for `:validate` action. Note that you can't yet change
+URL path. Here is all actions to cas_server that you can configure:
+
+- `:edit_profile` (`/identities/:id/edit`) :
+   URL for editing user's profile (not in cas API reference).
+- `:login` (`/cas/login`) :
+   Signin URL.
+- `:logout` (`/cas/logout`) :
+   Logout URL.
+- `:signup` (`/identities/new`) :
+   Signup URL (not in cas API reference).
+- `:validate` (`/cas/serviceValidate`) :
+   URL for validating ticket (internal request).
+
+Then you have access from a `CasClient::Request` instance to this methods:
+`edit_profile_url`, `login_url`, `logout_url`, `signup_url`.
+
+All methods above can take extra parameters. Example:
+
+    cas_request.login_url(:auth => 'facebook')
+    => http://example.com/cas/login?auth=facebook
 
 Copyright (c) 2009 Alexis Toulotte, Dimelo
 Licenced under MIT
