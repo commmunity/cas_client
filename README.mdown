@@ -4,7 +4,7 @@ Provides authentication to a cas_server. Cas authentication works as a filter
 on each HTTP request. If `ticket` parameter is provided, CAS request must be
 created and validated.
 
-If you use [cas_server](http://github.com/nel/cas_server/tree/master/) and
+If you use [cas_server](http://github.com/community/cas_server/) and
 CasClient on same app, it will not create an HTTP request and directly proxy
 the request through Rack.
 
